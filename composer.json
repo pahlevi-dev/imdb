@@ -1,0 +1,21 @@
+{
+    "name": "douglasgreen/imdb",
+    "description": "Process IMDB non-commercial datasets",
+    "license": "GPL-3",
+    "autoload": {
+        "psr-4": {
+            "Imdb\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.2.0"
+    },
+    "require-dev": {
+        "phpmd/phpmd": "^2.15",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "scripts": {
+        "fix-php": "./vendor/bin/phpcbf",
+        "lint-php": "./vendor/bin/phpcs && ./vendor/bin/phpmd bin,phplib text phpmd.xml"
+    }
+}
