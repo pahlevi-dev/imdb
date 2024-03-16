@@ -6,11 +6,29 @@ use Exception;
 
 class TitleBasicsLoader extends Loader
 {
+    const HEADERS = [
+        'tconst',
+        'titleType',
+        'primaryTitle',
+        'originalTitle',
+        'isAdult',
+        'startYear',
+        'endYear',
+        'runtimeMinutes',
+        'genres'
+    ];
+
     public function __construct(
         string $filename,
         callable $filterCallback = null
     ) {
         parent::__construct($filename, $filterCallback);
+
+        $line = gzgets($this->file);
+        $fields = explode("\t", trim($line, "\n"));
+        if ($fields != self::HEADERS) {
+            throw new Exception("Format not recognized: $filename");
+        }
 
         while (($line = gzgets($this->file)) !== false) {
             $fields = explode("\t", trim($line, "\n"));

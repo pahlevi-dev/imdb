@@ -16,6 +16,6 @@
     },
     "scripts": {
         "fix-php": "./vendor/bin/phpcbf",
-        "lint-php": "./vendor/bin/phpcs && ./vendor/bin/phpmd bin,phplib text phpmd.xml"
+        "lint-php": "./vendor/bin/phpcs && ./vendor/bin/phpmd bin,src text phpmd.xml"
     }
 }

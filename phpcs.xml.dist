@@ -9,5 +9,6 @@
         </properties>
     </rule>
 
+    <file>bin/</file>
     <file>src/</file>
 </ruleset>
