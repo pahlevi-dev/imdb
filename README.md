@@ -31,6 +31,41 @@ This table shows that:
 | tvSpecial | 12183 | 6.73 | 227 |
 | tvShort | 2285 | 6.81 | 161 |
 
+### Genre Counts
+
+This table shows that drama and comedy are the most popular genres.
+
+| Genre | Count |
+|-------|-------|
+| Drama | 3021790 |
+| Comedy | 2102836 |
+| Talk-Show | 1303184 |
+| Short | 1157867 |
+| Documentary | 1013042 |
+| Romance | 989789 |
+| News | 948336 |
+| Family | 787216 |
+| Reality-TV | 599165 |
+| Animation | 535258 |
+| Crime | 443956 |
+| Action | 437587 |
+| Adventure | 416566 |
+| Music | 400091 |
+| Game-Show | 387921 |
+| Adult | 333805 |
+| Sport | 253875 |
+| Fantasy | 216141 |
+| Mystery | 215164 |
+| Horror | 190618 |
+| Thriller | 175920 |
+| History | 157445 |
+| Biography | 114825 |
+| Sci-Fi | 114411 |
+| Musical | 90101 |
+| War | 41946 |
+| Western | 30442 |
+| Film-Noir | 883 |
+
 ### Movie Runtimes
 
 This table shows that 90 minutes is the most common movie runtime.
@@ -68,39 +103,3 @@ This table shows that 90 minutes is the most common movie runtime.
 | 280 | 48 |
 | 290 | 43 |
 | 300+ | 559 |
-
-### Genre Counts
-
-This table shows that drama and comedy are the most popular genres.
-
-| Genre | Count |
-|-------|-------|
-| Drama | 3021790 |
-| Comedy | 2102836 |
-| Talk-Show | 1303184 |
-| Short | 1157867 |
-| Documentary | 1013042 |
-| Romance | 989789 |
-| News | 948336 |
-| Family | 787216 |
-| Reality-TV | 599165 |
-| Animation | 535258 |
-| Crime | 443956 |
-| Action | 437587 |
-| Adventure | 416566 |
-| Music | 400091 |
-| Game-Show | 387921 |
-| Adult | 333805 |
-| Sport | 253875 |
-| Fantasy | 216141 |
-| Mystery | 215164 |
-| Horror | 190618 |
-| Thriller | 175920 |
-| History | 157445 |
-| Biography | 114825 |
-| Sci-Fi | 114411 |
-| Musical | 90101 |
-| War | 41946 |
-| Western | 30442 |
-| Film-Noir | 883 |
-

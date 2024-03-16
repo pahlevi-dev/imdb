@@ -56,6 +56,28 @@ foreach ($counts as $type => $count) {
 }
 echo "\n";
 
+// Summary table for genres
+$genreCounts = [];
+
+foreach ($titles as $title) {
+    if (!$title['genres']) {
+        continue;
+    }
+    foreach ($title['genres'] as $genre) {
+        $genreCounts[$genre] = isset($genreCounts[$genre]) ? $genreCounts[$genre] + 1 : 1;
+    }
+}
+
+arsort($genreCounts);
+
+echo "### Genre Counts\n\n";
+echo "| Genre | Count |\n|-------|-------|\n";
+
+foreach ($genreCounts as $genre => $count) {
+    echo "| $genre | $count |\n";
+}
+echo "\n";
+
 // Summary table for runtimeMinutes
 $runtimeCounts = [];
 
@@ -83,24 +105,3 @@ foreach ($runtimeCounts as $runtime => $count) {
     echo "| $runtime | $count |\n";
 }
 echo "\n";
-
-// Summary table for genres
-$genreCounts = [];
-
-foreach ($titles as $title) {
-    if (!$title['genres']) {
-        continue;
-    }
-    foreach ($title['genres'] as $genre) {
-        $genreCounts[$genre] = isset($genreCounts[$genre]) ? $genreCounts[$genre] + 1 : 1;
-    }
-}
-
-arsort($genreCounts);
-
-echo "### Genre Counts\n\n";
-echo "| Genre | Count |\n|-------|-------|\n";
-
-foreach ($genreCounts as $genre => $count) {
-    echo "| $genre | $count |\n";
-}
