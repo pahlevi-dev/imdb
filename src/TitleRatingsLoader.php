@@ -54,16 +54,20 @@ class TitleRatingsLoader extends Loader
         return $this->data[$titleId] ?? null;
     }
 
-    public function getTopRatedTitles(int $limit = 10): array
+    public function getTopRatedTitles(int $limit = null): array
     {
         $ratings = $this->data;
-        usort($ratings, function ($a, $b) {
+        uasort($ratings, function ($a, $b) {
             if ($a['averageRating'] == $b['averageRating']) {
                 return $b['numVotes'] - $a['numVotes'];
             }
             return $b['averageRating'] - $a['averageRating'];
         });
 
-        return array_slice($ratings, 0, $limit);
+        if ($limit) {
+            $ratings = array_slice($ratings, 0, $limit, true);
+        }
+
+        return $ratings;
     }
 }
