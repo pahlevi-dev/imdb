@@ -4,6 +4,7 @@ Process [IMDb non-commercial datasets](https://developer.imdb.com/non-commercial
 ## Scripts
 * `bin/fetch.sh` - Fetch data files and put in `data/` directory.
 * `bin/filter.php` - Filter the data for recent highly-rated movies.
+* `bin/print_stats.php` - Print statistics about titles and ratings.
 
 ## Statistics
 
