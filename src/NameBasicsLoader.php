@@ -17,7 +17,8 @@ class NameBasicsLoader extends Loader
 
     public function __construct(
         string $filename,
-        callable $filterCallback = null
+        callable $filterCallback = null,
+        callable $processRow = null
     ) {
         parent::__construct($filename, $filterCallback);
 
@@ -49,6 +50,9 @@ class NameBasicsLoader extends Loader
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
+                if ($processRow) {
+                    $row = $processRow($row);
+                }
                 $this->data[$personId] = $row;
             }
         }

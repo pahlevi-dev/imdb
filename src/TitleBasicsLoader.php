@@ -20,7 +20,8 @@ class TitleBasicsLoader extends Loader
 
     public function __construct(
         string $filename,
-        callable $filterCallback = null
+        callable $filterCallback = null,
+        callable $processRow = null
     ) {
         parent::__construct($filename, $filterCallback);
 
@@ -58,6 +59,9 @@ class TitleBasicsLoader extends Loader
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
+                if ($processRow) {
+                    $row = $processRow($row);
+                }
                 $this->data[$tconst] = $row;
             }
         }

@@ -9,10 +9,8 @@ class Loader
     protected $file;
     protected $data = [];
 
-    public function __construct(
-        string $filename,
-        callable $filterCallback = null
-    ) {
+    public function __construct(string $filename)
+    {
         if (!file_exists($filename)) {
             throw new Exception("File does not exist: $filename");
         }

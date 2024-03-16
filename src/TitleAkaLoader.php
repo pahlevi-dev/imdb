@@ -19,7 +19,8 @@ class TitleAkaLoader extends Loader
 
     public function __construct(
         string $filename,
-        callable $filterCallback = null
+        callable $filterCallback = null,
+        callable $processRow = null
     ) {
         parent::__construct($filename, $filterCallback);
 
@@ -54,6 +55,9 @@ class TitleAkaLoader extends Loader
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
+                if ($processRow) {
+                    $row = $processRow($row);
+                }
                 $this->data[$titleId][$ordering] = $row;
             }
         }
