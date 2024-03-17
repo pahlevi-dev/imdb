@@ -48,7 +48,7 @@ $titleLoader = new TitleBasicsLoader(
 $titles = $titleLoader->getData();
 
 $ratingLoader = new TitleRatingsLoader(
-	__DIR__ . '/../data/title.ratings.tsv.gz',
+    __DIR__ . '/../data/title.ratings.tsv.gz',
     function ($row) use ($minRating, $minVotes) {
         if ($minRating && $row['averageRating'] < $minRating) {
             return false;

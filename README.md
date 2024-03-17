@@ -6,6 +6,69 @@ Process [IMDb non-commercial datasets](https://developer.imdb.com/non-commercial
 * `bin/filter.php` - Filter the data for recent highly-rated movies.
 * `bin/print_stats.php` - Print statistics about titles and ratings.
 
+### Using filter.php
+
+This PHP script, `filter.php`, allows you to filter the IMDB data sets and find
+recent highly rated movies based on various criteria. It provides a convenient
+way to explore the IMDB data and discover popular movies that match your
+preferences.
+
+#### Usage
+
+To use the script, run it from the command line with the desired options:
+
+```
+./filter.php [options]
+```
+
+#### Options
+
+The script supports the following options:
+
+- `-y, --min-year`: Specify the minimum year for the movies. Only movies
+  released on or after this year will be included in the results.
+- `-t, --title-type`: Filter movies by title type. Examples of valid title types
+  include "tvEpisode" for TV episodes and "movie" for feature films.
+- `-g, --genre`: Filter movies by genre. Examples of valid genres include
+  "Documentary" and "Animation".
+- `-r, --min-rating`: Specify the minimum average rating for the movies. Only
+  movies with an average rating equal to or higher than this value will be
+  included in the results.
+- `-v, --min-votes`: Specify the minimum number of votes required for a movie to
+  be considered. Only movies with a number of votes equal to or greater than
+  this value will be included in the results.
+
+#### Examples
+
+Here are a few examples of how to use the script with different options:
+
+1. Find movies released in 2010 or later:
+   ```
+   ./filter.php --min-year 2010
+   ```
+
+2. Find TV episodes in the "Documentary" genre:
+   ```
+   ./filter.php --title-type tvEpisode --genre Documentary
+   ```
+
+3. Find movies with an average rating of 8.0 or higher and at least 10,000
+votes:
+   ```
+   ./filter.php --min-rating 8.0 --min-votes 10000
+   ```
+
+4. Find animated movies released in 2015 or later with a minimum rating of 7.5:
+   ```
+   ./filter.php --min-year 2015 --genre Animation --min-rating 7.5
+   ```
+
+The script will output the filtered results, displaying the movie title, release
+year, average rating, and number of votes for each matching movie.
+
+Note: Make sure you have the required IMDB data sets (`title.basics.tsv.gz` and
+`title.ratings.tsv.gz`) in the `data` directory before running the script.
+
 ## Statistics
 
 Here is a summary of data from the files downloaded on March 16, 2024.

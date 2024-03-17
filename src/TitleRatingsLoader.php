@@ -57,11 +57,18 @@ class TitleRatingsLoader extends Loader
     public function getTopRatedTitles(int $limit = null): array
     {
         $ratings = $this->data;
+
         uasort($ratings, function ($a, $b) {
-            if ($a['averageRating'] == $b['averageRating']) {
-                return $b['numVotes'] - $a['numVotes'];
+            $aRating = round($a['averageRating'] * 1000);
+            $bRating = round($b['averageRating'] * 1000);
+
+            if ($aRating == $bRating) {
+                // If average ratings are considered equal, sort by numVotes
+                return $b['numVotes'] <=> $a['numVotes'];
             }
-            return $b['averageRating'] - $a['averageRating'];
+
+            // Sort by averageRating
+            return $bRating <=> $aRating;
         });
 
         if ($limit) {
