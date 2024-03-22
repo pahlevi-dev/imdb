@@ -42,6 +42,7 @@ class TitlePrincipalsLoader extends Loader
             }
 
             $row = [
+                'titleId' => $titleId,
                 'personId' => $personId,
                 'category' => $category,
                 'job' => $job,

@@ -38,6 +38,7 @@ class TitleEpisodeLoader extends Loader
             }
 
             $row = [
+                'episodeId' => $episodeId;
                 'parentId' => $parentId,
                 'seasonNumber' => $seasonNumber,
                 'episodeNumber' => $episodeNumber

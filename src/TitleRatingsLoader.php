@@ -36,6 +36,7 @@ class TitleRatingsLoader extends Loader
             }
 
             $row = [
+                'titleId' => $titleId,
                 'averageRating' => $averageRating,
                 'numVotes' => $numVotes
             ];

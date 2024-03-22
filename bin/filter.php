@@ -49,7 +49,11 @@ $titles = $titleLoader->getData();
 
 $ratingLoader = new TitleRatingsLoader(
     __DIR__ . '/../data/title.ratings.tsv.gz',
-    function ($row) use ($minRating, $minVotes) {
+    function ($row) use ($titles, $minRating, $minVotes) {
+        if (!isset($titles[$row['titleId']])) {
+            return false;
+        }
+
         if ($minRating && $row['averageRating'] < $minRating) {
             return false;
         }
@@ -63,10 +67,6 @@ $ratingLoader = new TitleRatingsLoader(
 $ratings = $ratingLoader->getTopRatedTitles();
 
 foreach ($ratings as $titleId => $rating) {
-    if (!isset($titles[$titleId])) {
-        continue;
-    }
-
     $title = $titles[$titleId];
     extract($title);
     extract($rating);

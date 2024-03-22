@@ -46,6 +46,8 @@ class TitleAkaLoader extends Loader
             }
 
             $row = [
+                'titleId' => $titleId,
+                'ordering' => $ordering,
                 'title' => $title,
                 'region' => $region,
                 'language' => $language,

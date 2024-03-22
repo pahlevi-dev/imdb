@@ -36,6 +36,7 @@ class TitleCrewLoader extends Loader
             }
 
             $row = [
+                'titleId' => $titleId;
                 'directors' => $directors,
                 'writers' => $writers
             ];

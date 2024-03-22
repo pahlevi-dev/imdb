@@ -48,6 +48,7 @@ class TitleBasicsLoader extends Loader
             }
 
             $row = [
+                'titleId' => $tconst,
                 'titleType' => $titleType,
                 'primaryTitle' => $primaryTitle,
                 'originalTitle' => $originalTitle,
