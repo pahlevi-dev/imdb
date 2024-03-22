@@ -7,13 +7,14 @@ use Imdb\TitleBasicsLoader;
 use Imdb\TitleRatingsLoader;
 
 $options = getopt(
-    "y:t:g:r:v:",
+    "y:t:g:r:v:a",
     [
         "min-year:",
         "title-type:",
         "genre:",
         "min-rating:",
-        "min-votes:"
+        "min-votes:",
+        "adult"
     ]
 );
 
@@ -22,10 +23,11 @@ $titleType = isset($options['t']) ? $options['t'] : (isset($options['title-type'
 $genre = isset($options['g']) ? $options['g'] : (isset($options['genre']) ? $options['genre'] : null);
 $minRating = isset($options['r']) ? $options['r'] : (isset($options['min-rating']) ? $options['min-rating'] : null);
 $minVotes = isset($options['v']) ? $options['v'] : (isset($options['min-votes']) ? $options['min-votes'] : null);
+$adult = isset($options['a']) || isset($options['adult']);
 
 $titleLoader = new TitleBasicsLoader(
     __DIR__ . '/../data/title.basics.tsv.gz',
-    function ($row) use ($minYear, $titleType, $genre) {
+    function ($row) use ($minYear, $titleType, $genre, $adult) {
         if ($minYear && $row['startYear'] < $minYear) {
             return false;
         }
@@ -33,6 +35,9 @@ $titleLoader = new TitleBasicsLoader(
             return false;
         }
         if ($genre && is_array($row['genres']) && !in_array($genre, $row['genres'])) {
+            return false;
+        }
+		if ($adult && !$row['isAdult']) {
             return false;
         }
 
