@@ -78,4 +78,29 @@ class TitleRatingsLoader extends Loader
 
         return $ratings;
     }
+
+    public function getTopVotedTitles(int $limit = null): array
+    {
+        $votes = $this->data;
+
+        uasort($votes, function ($a, $b) {
+            // Directly compare the 'numVotes' to sort by votes
+            $result = $b['numVotes'] <=> $a['numVotes'];
+
+            if ($result === 0) {
+                // If 'numVotes' are equal, fallback to sorting by averageRating
+                $aRating = round($a['averageRating'] * 1000);
+                $bRating = round($b['averageRating'] * 1000);
+                return $bRating <=> $aRating;
+            }
+
+            return $result;
+        });
+
+        if ($limit) {
+            $votes = array_slice($votes, 0, $limit, true);
+        }
+
+        return $votes;
+    }
 }

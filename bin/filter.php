@@ -7,14 +7,15 @@ use Imdb\TitleBasicsLoader;
 use Imdb\TitleRatingsLoader;
 
 $options = getopt(
-    "y:t:g:r:v:a",
+    "y:t:g:r:v:as",
     [
         "min-year:",
         "title-type:",
         "genre:",
         "min-rating:",
         "min-votes:",
-        "adult"
+        "adult",
+        "sort-by-votes"
     ]
 );
 
@@ -24,6 +25,7 @@ $genre = isset($options['g']) ? $options['g'] : (isset($options['genre']) ? $opt
 $minRating = isset($options['r']) ? $options['r'] : (isset($options['min-rating']) ? $options['min-rating'] : null);
 $minVotes = isset($options['v']) ? $options['v'] : (isset($options['min-votes']) ? $options['min-votes'] : null);
 $adult = isset($options['a']) || isset($options['adult']);
+$sortByVotes = isset($options['s']) || isset($options['sort-by-votes']);
 
 $titleLoader = new TitleBasicsLoader(
     __DIR__ . '/../data/title.basics.tsv.gz',
@@ -37,7 +39,7 @@ $titleLoader = new TitleBasicsLoader(
         if ($genre && is_array($row['genres']) && !in_array($genre, $row['genres'])) {
             return false;
         }
-		if ($adult && !$row['isAdult']) {
+        if ($adult && !$row['isAdult']) {
             return false;
         }
 
@@ -70,7 +72,11 @@ $ratingLoader = new TitleRatingsLoader(
         return true;
     },
 );
-$ratings = $ratingLoader->getTopRatedTitles();
+if ($sortByVotes) {
+    $ratings = $ratingLoader->getTopVotedTitles();
+} else {
+    $ratings = $ratingLoader->getTopRatedTitles();
+}
 
 foreach ($ratings as $titleId => $rating) {
     $title = $titles[$titleId];

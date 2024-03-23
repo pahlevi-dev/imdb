@@ -37,6 +37,7 @@ The script supports the following options:
 - `-v, --min-votes`: Specify the minimum number of votes required for a movie to
   be considered. Only movies with a number of votes equal to or greater than
   this value will be included in the results.
+- `-s, --sort-by-votes`: Sort by votes instead of ratings.
 - `-a, --adult`: Include only adult films.
 
 #### Examples
