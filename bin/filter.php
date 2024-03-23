@@ -47,6 +47,7 @@ $titleLoader = new TitleBasicsLoader(
         return [
             'primaryTitle' => $row['primaryTitle'],
             'startYear' => $row['startYear'],
+            'genres' => $row['genres']
         ];
     }
 );
@@ -75,5 +76,6 @@ foreach ($ratings as $titleId => $rating) {
     $title = $titles[$titleId];
     extract($title);
     extract($rating);
-    echo "$primaryTitle ($startYear): $averageRating * $numVotes\n";
+    $genreDesc = $genres ? ' (' . implode(', ', $genres) . ')' : '';
+    echo "$primaryTitle ($startYear): $averageRating * $numVotes$genreDesc\n";
 }
