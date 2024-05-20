@@ -1,0 +1,24 @@
+{
+    "name": "douglasgreen/imdb",
+    "description": "Process IMDB non-commercial datasets",
+    "license": "MIT",
+    "engines": {
+        "node": ">=18",
+        "npm": ">=9"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.3",
+        "@commitlint/config-conventional": "^19.2",
+        "eslint": "^8.57",
+        "eslint-config-standard": "^17.1",
+        "husky": "^9.0",
+        "prettier": "^3.2",
+        "prettier-plugin-sh": "^0.14",
+        "@prettier/plugin-xml": "^3.4"
+    },
+    "scripts": {
+        "commitlint": "commitlint --edit",
+        "lint:fix": "prettier --write .",
+        "prepare": "husky"
+    }
+}

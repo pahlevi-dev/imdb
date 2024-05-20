@@ -17,6 +17,10 @@ script/setup
 -   Lint: `composer lint`
 -   Fix: `composer lint:fix`
 
+### JavaScript
+
+-   Fix: `npm run lint:fix`
+
 ## Pre-commit Hooks
 
 Linting and testing are automatically run by `.husky/pre-commit`. Fix any errors

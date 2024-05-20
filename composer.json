@@ -1,7 +1,7 @@
 {
     "name": "douglasgreen/imdb",
     "description": "Process IMDB non-commercial datasets",
-    "license": "GPL-3",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Imdb\\": "src/"
