@@ -1,19 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imdb;
 
 use Exception;
 
 class TitlePrincipalsLoader extends Loader
 {
-    const HEADERS = [
-        'tconst',
-        'ordering',
-        'nconst',
-        'category',
-        'job',
-        'characters'
-    ];
+    public const HEADERS = ['tconst', 'ordering', 'nconst', 'category', 'job', 'characters'];
 
     public function __construct(
         string $filename,
@@ -24,8 +19,8 @@ class TitlePrincipalsLoader extends Loader
 
         $line = gzgets($this->file);
         $fields = explode("\t", trim($line, "\n"));
-        if ($fields != self::HEADERS) {
-            throw new Exception("Format not recognized: $filename");
+        if ($fields !== self::HEADERS) {
+            throw new Exception('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -38,7 +33,7 @@ class TitlePrincipalsLoader extends Loader
             $characters = $fields[5] !== '\\N' ? $fields[5] : null;
 
             if (isset($this->data[$titleId][$ordering])) {
-                throw new Exception("Duplicate title ID and order: $titleId, $ordering");
+                throw new Exception(sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering));
             }
 
             $row = [
@@ -46,13 +41,14 @@ class TitlePrincipalsLoader extends Loader
                 'personId' => $personId,
                 'category' => $category,
                 'job' => $job,
-                'characters' => $characters
+                'characters' => $characters,
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
-                if ($processRow) {
+                if ($processRow !== null) {
                     $row = $processRow($row);
                 }
+
                 $this->data[$titleId][$ordering] = $row;
             }
         }

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imdb;
 
 use Exception;
 
 class TitleBasicsLoader extends Loader
 {
-    const HEADERS = [
+    public const HEADERS = [
         'tconst',
         'titleType',
         'primaryTitle',
@@ -15,9 +17,12 @@ class TitleBasicsLoader extends Loader
         'startYear',
         'endYear',
         'runtimeMinutes',
-        'genres'
+        'genres',
     ];
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     public function __construct(
         string $filename,
         callable $filterCallback = null,
@@ -27,8 +32,8 @@ class TitleBasicsLoader extends Loader
 
         $line = gzgets($this->file);
         $fields = explode("\t", trim($line, "\n"));
-        if ($fields != self::HEADERS) {
-            throw new Exception("Format not recognized: $filename");
+        if ($fields !== self::HEADERS) {
+            throw new Exception('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -44,7 +49,7 @@ class TitleBasicsLoader extends Loader
             $genres = ($fields[8] !== '\\N') ? explode(',', $fields[8]) : [];
 
             if (isset($this->data[$tconst])) {
-                throw new Exception("Duplicate title ID: $tconst");
+                throw new Exception('Duplicate title ID: ' . $tconst);
             }
 
             $row = [
@@ -56,13 +61,14 @@ class TitleBasicsLoader extends Loader
                 'startYear' => $startYear,
                 'endYear' => $endYear,
                 'runtimeMinutes' => $runtimeMinutes,
-                'genres' => $genres
+                'genres' => $genres,
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
-                if ($processRow) {
+                if ($processRow !== null) {
                     $row = $processRow($row);
                 }
+
                 $this->data[$tconst] = $row;
             }
         }

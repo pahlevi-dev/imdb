@@ -1,16 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imdb;
 
 use Exception;
 
 class TitleRatingsLoader extends Loader
 {
-    const HEADERS = [
-        'tconst',
-        'averageRating',
-        'numVotes'
-    ];
+    public const HEADERS = ['tconst', 'averageRating', 'numVotes'];
 
     public function __construct(
         string $filename,
@@ -21,8 +19,8 @@ class TitleRatingsLoader extends Loader
 
         $line = gzgets($this->file);
         $fields = explode("\t", trim($line, "\n"));
-        if ($fields != self::HEADERS) {
-            throw new Exception("Format not recognized: $filename");
+        if ($fields !== self::HEADERS) {
+            throw new Exception('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -32,19 +30,20 @@ class TitleRatingsLoader extends Loader
             $numVotes = intval($fields[2]);
 
             if (isset($this->data[$titleId])) {
-                throw new Exception("Duplicate title ID: $titleId");
+                throw new Exception('Duplicate title ID: ' . $titleId);
             }
 
             $row = [
                 'titleId' => $titleId,
                 'averageRating' => $averageRating,
-                'numVotes' => $numVotes
+                'numVotes' => $numVotes,
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
-                if ($processRow) {
+                if ($processRow !== null) {
                     $row = $processRow($row);
                 }
+
                 $this->data[$titleId] = $row;
             }
         }
@@ -59,21 +58,20 @@ class TitleRatingsLoader extends Loader
     {
         $ratings = $this->data;
 
-        uasort($ratings, function ($a, $b) {
-            $aRating = round($a['averageRating'] * 1000);
-            $bRating = round($b['averageRating'] * 1000);
-
-            if ($aRating == $bRating) {
+        uasort($ratings, static function (array $first, array $second): int {
+            $firstRating = round($first['averageRating'] * 1000);
+            $secondRating = round($second['averageRating'] * 1000);
+            if ($firstRating === $secondRating) {
                 // If average ratings are considered equal, sort by numVotes
-                return $b['numVotes'] <=> $a['numVotes'];
+                return $second['numVotes'] <=> $first['numVotes'];
             }
 
             // Sort by averageRating
-            return $bRating <=> $aRating;
+            return $secondRating <=> $firstRating;
         });
 
-        if ($limit) {
-            $ratings = array_slice($ratings, 0, $limit, true);
+        if ($limit !== null && $limit !== 0) {
+            return array_slice($ratings, 0, $limit, true);
         }
 
         return $ratings;
@@ -83,22 +81,21 @@ class TitleRatingsLoader extends Loader
     {
         $votes = $this->data;
 
-        uasort($votes, function ($a, $b) {
+        uasort($votes, static function (array $first, array $second): int {
             // Directly compare the 'numVotes' to sort by votes
-            $result = $b['numVotes'] <=> $a['numVotes'];
-
+            $result = $second['numVotes'] <=> $first['numVotes'];
             if ($result === 0) {
                 // If 'numVotes' are equal, fallback to sorting by averageRating
-                $aRating = round($a['averageRating'] * 1000);
-                $bRating = round($b['averageRating'] * 1000);
-                return $bRating <=> $aRating;
+                $firstRating = round($first['averageRating'] * 1000);
+                $secondRating = round($second['averageRating'] * 1000);
+                return $secondRating <=> $firstRating;
             }
 
             return $result;
         });
 
-        if ($limit) {
-            $votes = array_slice($votes, 0, $limit, true);
+        if ($limit !== null && $limit !== 0) {
+            return array_slice($votes, 0, $limit, true);
         }
 
         return $votes;

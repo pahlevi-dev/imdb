@@ -1,16 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imdb;
 
 use Exception;
 
 class TitleCrewLoader extends Loader
 {
-    const HEADERS = [
-        'tconst',
-        'directors',
-        'writers'
-    ];
+    public const HEADERS = ['tconst', 'directors', 'writers'];
 
     public function __construct(
         string $filename,
@@ -21,8 +19,8 @@ class TitleCrewLoader extends Loader
 
         $line = gzgets($this->file);
         $fields = explode("\t", trim($line, "\n"));
-        if ($fields != self::HEADERS) {
-            throw new Exception("Format not recognized: $filename");
+        if ($fields !== self::HEADERS) {
+            throw new Exception('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -32,19 +30,20 @@ class TitleCrewLoader extends Loader
             $writers = ($fields[2] !== '\\N') ? explode(',', $fields[2]) : null;
 
             if (isset($this->data[$titleId])) {
-                throw new Exception("Duplicate title ID: $titleId");
+                throw new Exception('Duplicate title ID: ' . $titleId);
             }
 
             $row = [
-                'titleId' => $titleId;
+                'titleId' => $titleId,
                 'directors' => $directors,
-                'writers' => $writers
+                'writers' => $writers,
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
-                if ($processRow) {
+                if ($processRow !== null) {
                     $row = $processRow($row);
                 }
+
                 $this->data[$titleId] = $row;
             }
         }

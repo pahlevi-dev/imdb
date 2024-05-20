@@ -1,20 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imdb;
 
 use Exception;
 
 class NameBasicsLoader extends Loader
 {
-    const HEADERS = [
+    public const HEADERS = [
         'nconst',
         'primaryName',
         'birthYear',
         'deathYear',
         'primaryProfession',
-        'knownForTitles'
+        'knownForTitles',
     ];
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     public function __construct(
         string $filename,
         callable $filterCallback = null,
@@ -24,8 +29,8 @@ class NameBasicsLoader extends Loader
 
         $line = gzgets($this->file);
         $fields = explode("\t", trim($line, "\n"));
-        if ($fields != self::HEADERS) {
-            throw new Exception("Format not recognized: $filename");
+        if ($fields !== self::HEADERS) {
+            throw new Exception('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -38,7 +43,7 @@ class NameBasicsLoader extends Loader
             $knownForTitles = $fields[5] !== '\\N' ? explode(',', $fields[5]) : null;
 
             if (isset($this->data[$personId])) {
-                throw new Exception("Duplicate person ID: $personId");
+                throw new Exception('Duplicate person ID: ' . $personId);
             }
 
             $row = [
@@ -46,13 +51,14 @@ class NameBasicsLoader extends Loader
                 'birthYear' => $birthYear,
                 'deathYear' => $deathYear,
                 'primaryProfession' => $primaryProfession,
-                'knownForTitles' => $knownForTitles
+                'knownForTitles' => $knownForTitles,
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
-                if ($processRow) {
+                if ($processRow !== null) {
                     $row = $processRow($row);
                 }
+
                 $this->data[$personId] = $row;
             }
         }
@@ -68,7 +74,7 @@ class NameBasicsLoader extends Loader
         $results = [];
 
         foreach ($this->data as $personId => $row) {
-            if (stripos($row['primaryName'], $name) !== false) {
+            if (stripos((string) $row['primaryName'], $name) !== false) {
                 $results[$personId] = $row;
             }
         }

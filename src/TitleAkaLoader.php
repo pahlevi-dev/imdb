@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imdb;
 
 use Exception;
 
 class TitleAkaLoader extends Loader
 {
-    const HEADERS = [
+    public const HEADERS = [
         'titleId',
         'ordering',
         'title',
@@ -14,9 +16,12 @@ class TitleAkaLoader extends Loader
         'language',
         'types',
         'attributes',
-        'isOriginalTitle'
+        'isOriginalTitle',
     ];
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     public function __construct(
         string $filename,
         callable $filterCallback = null,
@@ -26,8 +31,8 @@ class TitleAkaLoader extends Loader
 
         $line = gzgets($this->file);
         $fields = explode("\t", trim($line, "\n"));
-        if ($fields != self::HEADERS) {
-            throw new Exception("Format not recognized: $filename");
+        if ($fields !== self::HEADERS) {
+            throw new Exception('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -42,7 +47,7 @@ class TitleAkaLoader extends Loader
             $isOriginalTitle = ($fields[7] === '1');
 
             if (isset($this->data[$titleId][$ordering])) {
-                throw new Exception("Duplicate title ID and order: $titleId, $ordering");
+                throw new Exception(sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering));
             }
 
             $row = [
@@ -53,13 +58,14 @@ class TitleAkaLoader extends Loader
                 'language' => $language,
                 'types' => $types,
                 'attributes' => $attributes,
-                'isOriginalTitle' => $isOriginalTitle
+                'isOriginalTitle' => $isOriginalTitle,
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
-                if ($processRow) {
+                if ($processRow !== null) {
                     $row = $processRow($row);
                 }
+
                 $this->data[$titleId][$ordering] = $row;
             }
         }

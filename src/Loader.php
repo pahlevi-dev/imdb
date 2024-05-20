@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imdb;
 
 use Exception;
@@ -7,17 +9,18 @@ use Exception;
 class Loader
 {
     protected $file;
+
     protected $data = [];
 
     public function __construct(string $filename)
     {
-        if (!file_exists($filename)) {
-            throw new Exception("File does not exist: $filename");
+        if (! file_exists($filename)) {
+            throw new Exception('File does not exist: ' . $filename);
         }
 
         $this->file = gzopen($filename, 'r');
         if ($this->file === false) {
-            throw new Exception("Unable to open file: $filename");
+            throw new Exception('Unable to open file: ' . $filename);
         }
     }
 

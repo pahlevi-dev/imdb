@@ -1,17 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Imdb;
 
 use Exception;
 
 class TitleEpisodeLoader extends Loader
 {
-    const HEADERS = [
-        'tconst',
-        'parentTconst',
-        'seasonNumber',
-        'episodeNumber'
-    ];
+    public const HEADERS = ['tconst', 'parentTconst', 'seasonNumber', 'episodeNumber'];
 
     public function __construct(
         string $filename,
@@ -22,8 +19,8 @@ class TitleEpisodeLoader extends Loader
 
         $line = gzgets($this->file);
         $fields = explode("\t", trim($line, "\n"));
-        if ($fields != self::HEADERS) {
-            throw new Exception("Format not recognized: $filename");
+        if ($fields !== self::HEADERS) {
+            throw new Exception('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -34,20 +31,21 @@ class TitleEpisodeLoader extends Loader
             $episodeNumber = ($fields[3] !== '\\N') ? intval($fields[3]) : null;
 
             if (isset($this->data[$episodeId])) {
-                throw new Exception("Duplicate episode ID: $episodeId");
+                throw new Exception('Duplicate episode ID: ' . $episodeId);
             }
 
             $row = [
-                'episodeId' => $episodeId;
+                'episodeId' => $episodeId,
                 'parentId' => $parentId,
                 'seasonNumber' => $seasonNumber,
-                'episodeNumber' => $episodeNumber
+                'episodeNumber' => $episodeNumber,
             ];
 
             if ($filterCallback === null || $filterCallback($row)) {
-                if ($processRow) {
+                if ($processRow !== null) {
                     $row = $processRow($row);
                 }
+
                 $this->data[$episodeId] = $row;
             }
         }
