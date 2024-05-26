@@ -5,8 +5,8 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Imdb\TitleBasicsLoader;
-use Imdb\TitleRatingsLoader;
+use DouglasGreen\Imdb\TitleBasicsLoader;
+use DouglasGreen\Imdb\TitleRatingsLoader;
 
 $titleLoader = new TitleBasicsLoader(
     __DIR__ . '/../data/title.basics.tsv.gz',

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Imdb;
-
-use Exception;
+namespace DouglasGreen\Imdb;
 
 class TitlePrincipalsLoader extends Loader
 {
@@ -15,12 +13,16 @@ class TitlePrincipalsLoader extends Loader
         callable $filterCallback = null,
         callable $processRow = null
     ) {
-        parent::__construct($filename, $filterCallback);
+        parent::__construct($filename);
 
         $line = gzgets($this->file);
+        if ($line === false) {
+            throw new InvalidFormatException('Header not found: ' . $filename);
+        }
+
         $fields = explode("\t", trim($line, "\n"));
         if ($fields !== self::HEADERS) {
-            throw new Exception('Format not recognized: ' . $filename);
+            throw new InvalidFormatException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -33,7 +35,7 @@ class TitlePrincipalsLoader extends Loader
             $characters = $fields[5] !== '\\N' ? $fields[5] : null;
 
             if (isset($this->data[$titleId][$ordering])) {
-                throw new Exception(sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering));
+                throw new DuplicateIdException(sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering));
             }
 
             $row = [
@@ -54,11 +56,17 @@ class TitlePrincipalsLoader extends Loader
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getPrincipals(string $titleId): ?array
     {
         return $this->data[$titleId] ?? null;
     }
 
+    /**
+     * @return array<string, array<string, array<string, mixed>>>
+     */
     public function getPrincipalsByPersonId(string $personId): ?array
     {
         $principals = [];

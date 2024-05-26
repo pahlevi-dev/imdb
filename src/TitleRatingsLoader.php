@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Imdb;
-
-use Exception;
+namespace DouglasGreen\Imdb;
 
 class TitleRatingsLoader extends Loader
 {
@@ -15,12 +13,16 @@ class TitleRatingsLoader extends Loader
         callable $filterCallback = null,
         callable $processRow = null
     ) {
-        parent::__construct($filename, $filterCallback);
+        parent::__construct($filename);
 
         $line = gzgets($this->file);
+        if ($line === false) {
+            throw new InvalidFormatException('Header not found: ' . $filename);
+        }
+
         $fields = explode("\t", trim($line, "\n"));
         if ($fields !== self::HEADERS) {
-            throw new Exception('Format not recognized: ' . $filename);
+            throw new InvalidFormatException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -30,7 +32,7 @@ class TitleRatingsLoader extends Loader
             $numVotes = intval($fields[2]);
 
             if (isset($this->data[$titleId])) {
-                throw new Exception('Duplicate title ID: ' . $titleId);
+                throw new DuplicateIdException('Duplicate title ID: ' . $titleId);
             }
 
             $row = [
@@ -49,11 +51,17 @@ class TitleRatingsLoader extends Loader
         }
     }
 
+    /**
+     * @return array<string, int|float|string>
+     */
     public function getRating(string $titleId): ?array
     {
         return $this->data[$titleId] ?? null;
     }
 
+    /**
+     * @return array<string, array<string, int|float|string>>
+     */
     public function getTopRatedTitles(int $limit = null): array
     {
         $ratings = $this->data;
@@ -77,6 +85,9 @@ class TitleRatingsLoader extends Loader
         return $ratings;
     }
 
+    /**
+     * @return array<string, array<string, int|float|string>>
+     */
     public function getTopVotedTitles(int $limit = null): array
     {
         $votes = $this->data;

@@ -4,8 +4,79 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "206e08169b0a4eaf14beec518e90ce08",
-    "packages": [],
+    "content-hash": "2ee6f8444f0a70f40f72315e165aa1b6",
+    "packages": [
+        {
+            "name": "douglasgreen/optparser",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/douglasgreen/optparser.git",
+                "reference": "b1eba8e18e39b841dced5a2acaa97183f91c50b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/douglasgreen/optparser/zipball/b1eba8e18e39b841dced5a2acaa97183f91c50b4",
+                "reference": "b1eba8e18e39b841dced5a2acaa97183f91c50b4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "^2.15",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^1.0",
+                "symplify/easy-coding-standard": "^12.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DouglasGreen\\OptParser\\": "src/",
+                    "DouglasGreen\\OptParser\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Douglas Green",
+                    "email": "douglas@nurd.site",
+                    "homepage": "https://nurd.site/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Parser for command-line options in PHP programs",
+            "homepage": "https://github.com/douglasgreen/optparser",
+            "keywords": [
+                "CLI Tool",
+                "automation",
+                "cli",
+                "cli library",
+                "command",
+                "command line",
+                "command line interface",
+                "command-line utility",
+                "console",
+                "php",
+                "php automation",
+                "php cli",
+                "php command line",
+                "php console application",
+                "php scripting",
+                "scripting",
+                "terminal"
+            ],
+            "support": {
+                "issues": "https://github.com/douglasgreen/optparser/issues",
+                "source": "https://github.com/douglasgreen/optparser/tree/0.6.0"
+            },
+            "time": "2024-05-24T23:26:46+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "composer/pcre",
@@ -292,16 +363,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.11.1",
+            "version": "1.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e524358f930e41a2b4cca1320e3b04fc26b39e0b"
+                "reference": "0d5d4294a70deb7547db655c47685d680e39cfec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e524358f930e41a2b4cca1320e3b04fc26b39e0b",
-                "reference": "e524358f930e41a2b4cca1320e3b04fc26b39e0b",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0d5d4294a70deb7547db655c47685d680e39cfec",
+                "reference": "0d5d4294a70deb7547db655c47685d680e39cfec",
                 "shasum": ""
             },
             "require": {
@@ -346,7 +417,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-15T08:00:59+00:00"
+            "time": "2024-05-24T13:23:04+00:00"
         },
         {
             "name": "psr/container",
@@ -1177,16 +1248,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "12.1.14",
+            "version": "12.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/easy-coding-standard/easy-coding-standard.git",
-                "reference": "e3c4a241ee36704f7cf920d5931f39693e64afd5"
+                "reference": "0b97c8e744217a8549efab3f971a982cbe0c310d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/easy-coding-standard/easy-coding-standard/zipball/e3c4a241ee36704f7cf920d5931f39693e64afd5",
-                "reference": "e3c4a241ee36704f7cf920d5931f39693e64afd5",
+                "url": "https://api.github.com/repos/easy-coding-standard/easy-coding-standard/zipball/0b97c8e744217a8549efab3f971a982cbe0c310d",
+                "reference": "0b97c8e744217a8549efab3f971a982cbe0c310d",
                 "shasum": ""
             },
             "require": {
@@ -1196,6 +1267,9 @@
                 "friendsofphp/php-cs-fixer": "<3.46",
                 "phpcsstandards/php_codesniffer": "<3.8",
                 "symplify/coding-standard": "<12.1"
+            },
+            "suggest": {
+                "ext-dom": "Needed to support checkstyle output format in class CheckstyleOutputFormatter"
             },
             "bin": [
                 "bin/ecs"
@@ -1219,7 +1293,7 @@
             ],
             "support": {
                 "issues": "https://github.com/easy-coding-standard/easy-coding-standard/issues",
-                "source": "https://github.com/easy-coding-standard/easy-coding-standard/tree/12.1.14"
+                "source": "https://github.com/easy-coding-standard/easy-coding-standard/tree/12.2.0"
             },
             "funding": [
                 {
@@ -1231,7 +1305,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-23T13:10:40+00:00"
+            "time": "2024-05-23T04:36:48+00:00"
         }
     ],
     "aliases": [],

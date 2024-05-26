@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Imdb;
-
-use Exception;
+namespace DouglasGreen\Imdb;
 
 class NameBasicsLoader extends Loader
 {
@@ -25,12 +23,16 @@ class NameBasicsLoader extends Loader
         callable $filterCallback = null,
         callable $processRow = null
     ) {
-        parent::__construct($filename, $filterCallback);
+        parent::__construct($filename);
 
         $line = gzgets($this->file);
+        if ($line === false) {
+            throw new InvalidFormatException('Header not found: ' . $filename);
+        }
+
         $fields = explode("\t", trim($line, "\n"));
         if ($fields !== self::HEADERS) {
-            throw new Exception('Format not recognized: ' . $filename);
+            throw new InvalidFormatException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -43,7 +45,7 @@ class NameBasicsLoader extends Loader
             $knownForTitles = $fields[5] !== '\\N' ? explode(',', $fields[5]) : null;
 
             if (isset($this->data[$personId])) {
-                throw new Exception('Duplicate person ID: ' . $personId);
+                throw new DuplicateIdException('Duplicate person ID: ' . $personId);
             }
 
             $row = [
@@ -64,11 +66,17 @@ class NameBasicsLoader extends Loader
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getPersonById(string $personId): ?array
     {
         return $this->data[$personId] ?? null;
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public function searchByName(string $name): array
     {
         $results = [];

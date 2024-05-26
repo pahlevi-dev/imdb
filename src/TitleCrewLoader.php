@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Imdb;
-
-use Exception;
+namespace DouglasGreen\Imdb;
 
 class TitleCrewLoader extends Loader
 {
@@ -15,12 +13,16 @@ class TitleCrewLoader extends Loader
         callable $filterCallback = null,
         callable $processRow = null
     ) {
-        parent::__construct($filename, $filterCallback);
+        parent::__construct($filename);
 
         $line = gzgets($this->file);
+        if ($line === false) {
+            throw new InvalidFormatException('Header not found: ' . $filename);
+        }
+
         $fields = explode("\t", trim($line, "\n"));
         if ($fields !== self::HEADERS) {
-            throw new Exception('Format not recognized: ' . $filename);
+            throw new InvalidFormatException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -30,7 +32,7 @@ class TitleCrewLoader extends Loader
             $writers = ($fields[2] !== '\\N') ? explode(',', $fields[2]) : null;
 
             if (isset($this->data[$titleId])) {
-                throw new Exception('Duplicate title ID: ' . $titleId);
+                throw new DuplicateIdException('Duplicate title ID: ' . $titleId);
             }
 
             $row = [
@@ -49,6 +51,9 @@ class TitleCrewLoader extends Loader
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getCrew(string $titleId): ?array
     {
         return $this->data[$titleId] ?? null;

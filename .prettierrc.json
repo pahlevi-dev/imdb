@@ -3,5 +3,5 @@
     "printWidth": 80,
     "proseWrap": "always",
     "htmlWhitespaceSensitivity": "ignore",
-    "plugins": ["@prettier/plugin-xml", "prettier-plugin-sh"]
+    "plugins": ["prettier-plugin-sh"]
 }

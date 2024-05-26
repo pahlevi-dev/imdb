@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Imdb;
-
-use Exception;
+namespace DouglasGreen\Imdb;
 
 class TitleEpisodeLoader extends Loader
 {
@@ -15,12 +13,16 @@ class TitleEpisodeLoader extends Loader
         callable $filterCallback = null,
         callable $processRow = null
     ) {
-        parent::__construct($filename, $filterCallback);
+        parent::__construct($filename);
 
         $line = gzgets($this->file);
+        if ($line === false) {
+            throw new InvalidFormatException('Header not found: ' . $filename);
+        }
+
         $fields = explode("\t", trim($line, "\n"));
         if ($fields !== self::HEADERS) {
-            throw new Exception('Format not recognized: ' . $filename);
+            throw new InvalidFormatException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -31,7 +33,7 @@ class TitleEpisodeLoader extends Loader
             $episodeNumber = ($fields[3] !== '\\N') ? intval($fields[3]) : null;
 
             if (isset($this->data[$episodeId])) {
-                throw new Exception('Duplicate episode ID: ' . $episodeId);
+                throw new DuplicateIdException('Duplicate episode ID: ' . $episodeId);
             }
 
             $row = [
@@ -51,11 +53,17 @@ class TitleEpisodeLoader extends Loader
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getEpisode(string $episodeId): ?array
     {
         return $this->data[$episodeId] ?? null;
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public function getEpisodesByParentId(string $parentId): ?array
     {
         $episodes = [];

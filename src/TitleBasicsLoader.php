@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Imdb;
-
-use Exception;
+namespace DouglasGreen\Imdb;
 
 class TitleBasicsLoader extends Loader
 {
@@ -28,12 +26,16 @@ class TitleBasicsLoader extends Loader
         callable $filterCallback = null,
         callable $processRow = null
     ) {
-        parent::__construct($filename, $filterCallback);
+        parent::__construct($filename);
 
         $line = gzgets($this->file);
+        if ($line === false) {
+            throw new InvalidFormatException('Header not found: ' . $filename);
+        }
+
         $fields = explode("\t", trim($line, "\n"));
         if ($fields !== self::HEADERS) {
-            throw new Exception('Format not recognized: ' . $filename);
+            throw new InvalidFormatException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -49,7 +51,7 @@ class TitleBasicsLoader extends Loader
             $genres = ($fields[8] !== '\\N') ? explode(',', $fields[8]) : [];
 
             if (isset($this->data[$tconst])) {
-                throw new Exception('Duplicate title ID: ' . $tconst);
+                throw new DuplicateIdException('Duplicate title ID: ' . $tconst);
             }
 
             $row = [

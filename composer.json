@@ -4,11 +4,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Imdb\\": "src/"
+            "DouglasGreen\\Imdb\\": "src/"
         }
     },
     "require": {
-        "php": ">=8.2"
+        "php": ">=8.2",
+        "douglasgreen/optparser": "^0.6.0"
     },
     "require-dev": {
         "phpmd/phpmd": "^2.15",

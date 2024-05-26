@@ -5,21 +5,30 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Imdb\TitleBasicsLoader;
-use Imdb\TitleRatingsLoader;
+use DouglasGreen\Imdb\TitleBasicsLoader;
+use DouglasGreen\Imdb\TitleRatingsLoader;
+use DouglasGreen\OptParser\OptParser;
 
-$options = getopt(
-    'y:t:g:r:v:as',
-    ['min-year:', 'title-type:', 'genre:', 'min-rating:', 'min-votes:', 'adult', 'sort-by-votes']
-);
+$optParser = new OptParser('IMDB Processor', 'Process IMDB non-commercial datasets');
 
-$minYear = $options['y'] ?? ($options['min-year'] ?? null);
-$titleType = $options['t'] ?? ($options['title-type'] ?? null);
-$genre = $options['g'] ?? ($options['genre'] ?? null);
-$minRating = $options['r'] ?? ($options['min-rating'] ?? null);
-$minVotes = $options['v'] ?? ($options['min-votes'] ?? null);
-$adult = isset($options['a']) || isset($options['adult']);
-$sortByVotes = isset($options['s']) || isset($options['sort-by-votes']);
+$optParser->addParam(['min-year', 'y'], 'INT', 'Minimum year')
+    ->addParam(['title-type', 't'], 'STRING', 'Title type')
+    ->addParam(['genre', 'g'], 'STRING', 'Genre')
+    ->addParam(['min-rating', 'r'], 'FLOAT', 'Minimum rating')
+    ->addParam(['min-votes', 'v'], 'INT', 'Minimum votes')
+    ->addFlag(['adult', 'a'], 'Include only adult films')
+    ->addFlag(['sort-by-votes', 's'], 'Sort by votes')
+    ->addUsageAll();
+
+$input = $optParser->parse();
+
+$minYear = $input->get('min-year');
+$titleType = $input->get('title-type');
+$genre = $input->get('genre');
+$minRating = $input->get('min-rating');
+$minVotes = $input->get('min-votes');
+$adult = (bool) $input->get('adult');
+$sortByVotes = (bool) $input->get('sort-by-votes');
 
 $titleLoader = new TitleBasicsLoader(
     __DIR__ . '/../data/title.basics.tsv.gz',
@@ -64,8 +73,11 @@ $ratings = $sortByVotes ? $ratingLoader->getTopVotedTitles() : $ratingLoader->ge
 
 foreach ($ratings as $titleId => $rating) {
     $title = $titles[$titleId];
-    extract($title);
-    extract($rating);
+    $genres = $title['genres'];
+    $primaryTitle = $title['primaryTitle'];
+    $startYear = $title['startYear'];
+    $averageRating = $rating['averageRating'];
+    $numVotes = $rating['numVotes'];
     $genreDesc = $genres ? ' (' . implode(', ', $genres) . ')' : '';
     echo sprintf('%s (%s): %s * %s%s%s', $primaryTitle, $startYear, $averageRating, $numVotes, $genreDesc, PHP_EOL);
 }

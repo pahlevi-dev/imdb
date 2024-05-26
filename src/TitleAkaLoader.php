@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Imdb;
-
-use Exception;
+namespace DouglasGreen\Imdb;
 
 class TitleAkaLoader extends Loader
 {
@@ -27,12 +25,16 @@ class TitleAkaLoader extends Loader
         callable $filterCallback = null,
         callable $processRow = null
     ) {
-        parent::__construct($filename, $filterCallback);
+        parent::__construct($filename);
 
         $line = gzgets($this->file);
+        if ($line === false) {
+            throw new InvalidFormatException('Header not found: ' . $filename);
+        }
+
         $fields = explode("\t", trim($line, "\n"));
         if ($fields !== self::HEADERS) {
-            throw new Exception('Format not recognized: ' . $filename);
+            throw new InvalidFormatException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -47,7 +49,7 @@ class TitleAkaLoader extends Loader
             $isOriginalTitle = ($fields[7] === '1');
 
             if (isset($this->data[$titleId][$ordering])) {
-                throw new Exception(sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering));
+                throw new DuplicateIdException(sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering));
             }
 
             $row = [
@@ -71,6 +73,9 @@ class TitleAkaLoader extends Loader
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getAkas(string $titleId): ?array
     {
         return $this->data[$titleId] ?? null;
