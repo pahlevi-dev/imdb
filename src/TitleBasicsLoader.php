@@ -18,6 +18,51 @@ class TitleBasicsLoader extends Loader
         'genres',
     ];
 
+    public const array VALID_GENRES = [
+        'Action',
+        'Adult',
+        'Adventure',
+        'Animation',
+        'Biography',
+        'Comedy',
+        'Crime',
+        'Documentary',
+        'Drama',
+        'Family',
+        'Fantasy',
+        'Film-Noir',
+        'Game-Show',
+        'History',
+        'Horror',
+        'Music',
+        'Musical',
+        'Mystery',
+        'News',
+        'Reality-TV',
+        'Romance',
+        'Sci-Fi',
+        'Short',
+        'Sport',
+        'Talk-Show',
+        'Thriller',
+        'War',
+        'Western',
+    ];
+
+    public const array VALID_TITLE_TYPES = [
+        'movie',
+        'short',
+        'tvEpisode',
+        'tvMiniSeries',
+        'tvMovie',
+        'tvPilot',
+        'tvSeries',
+        'tvShort',
+        'tvSpecial',
+        'video',
+        'videoGame',
+    ];
+
     /**
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */

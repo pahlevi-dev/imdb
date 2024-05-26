@@ -37,6 +37,7 @@ vendor/
 # Compressed files
 *.7z
 *.dmg
+*.gz
 *.iso
 *.rar
 *.tar
