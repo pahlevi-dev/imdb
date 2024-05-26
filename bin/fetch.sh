@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# Change to the directory of the script
+cd "$(dirname "$0")"
+
 echo "Fetching name.basics.tsv"
 wget https://datasets.imdbws.com/name.basics.tsv.gz
 
