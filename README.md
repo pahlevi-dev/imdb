@@ -54,7 +54,7 @@ Here are a few examples of how to use the script with different options:
 1. Find movies released in 2010 or later:
 
     ```
-    ./filter.php --min-year 2010
+    ./filter.php --title-type movie --min-year 2010
     ```
 
 2. Find TV episodes in the "Documentary" genre:
@@ -67,12 +67,12 @@ Here are a few examples of how to use the script with different options:
    votes:
 
     ```
-    ./filter.php --min-rating 8.0 --min-votes 10000
+    ./filter.php --title-type movie --min-rating 8.0 --min-votes 10000
     ```
 
 4. Find animated movies released in 2015 or later with a minimum rating of 7.5:
     ```
-    ./filter.php --min-year 2015 --genre Animation --min-rating 7.5
+    ./filter.php --title-type movie --min-year 2015 --genre Animation --min-rating 7.5
     ```
 
 The script will output the filtered results, displaying the movie title, release
