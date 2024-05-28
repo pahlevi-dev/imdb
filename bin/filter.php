@@ -7,20 +7,21 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use DouglasGreen\Imdb\TitleBasicsLoader;
 use DouglasGreen\Imdb\TitleRatingsLoader;
+use DouglasGreen\OptParser\Exceptions\BadArgumentException;
 use DouglasGreen\OptParser\OptParser;
 
 $optParser = new OptParser('IMDB Processor', 'Process IMDB non-commercial datasets');
 
 $optParser->addParam(['min-year', 'y'], 'INT', 'Minimum year', static function (int $value): int {
     if ($value < 1900 || $value > date('Y')) {
-        throw new InvalidArgumentException('Year not within range: ' . $value);
+        throw new BadArgumentException('Year not within range: ' . $value);
     }
 
     return $value;
 })
     ->addParam(['title-type', 't'], 'STRING', 'Title type', static function (string $value): string {
         if (! in_array($value, TitleBasicsLoader::VALID_TITLE_TYPES, true)) {
-            throw new InvalidArgumentException('Title not valid; must be one of: ' . implode(
+            throw new BadArgumentException('Title not valid; must be one of: ' . implode(
                 ', ',
                 TitleBasicsLoader::VALID_TITLE_TYPES
             ));
@@ -30,7 +31,7 @@ $optParser->addParam(['min-year', 'y'], 'INT', 'Minimum year', static function (
     })
     ->addParam(['genre', 'g'], 'STRING', 'Genre', static function (string $value): string {
         if (! in_array($value, TitleBasicsLoader::VALID_GENRES, true)) {
-            throw new InvalidArgumentException('Genre not valid; must be one of: ' . implode(
+            throw new BadArgumentException('Genre not valid; must be one of: ' . implode(
                 ', ',
                 TitleBasicsLoader::VALID_GENRES
             ));
@@ -40,14 +41,14 @@ $optParser->addParam(['min-year', 'y'], 'INT', 'Minimum year', static function (
     })
     ->addParam(['min-rating', 'r'], 'FLOAT', 'Minimum rating', static function (float $value): float {
         if ($value < 0.0 || $value > 10.0) {
-            throw new InvalidArgumentException('Value not in range 0 to 10');
+            throw new BadArgumentException('Value not in range 0 to 10');
         }
 
         return $value;
     })
     ->addParam(['min-votes', 'v'], 'INT', 'Minimum votes', static function (int $value): int {
         if ($value < 1) {
-            throw new InvalidArgumentException('Value must be greater than 0');
+            throw new BadArgumentException('Value must be greater than 0');
         }
 
         return $value;
