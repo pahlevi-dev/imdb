@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
+use DouglasGreen\Exceptions\DataException;
+use DouglasGreen\Exceptions\ValueException;
+
 class NameBasicsLoader extends Loader
 {
     public const HEADERS = [
@@ -17,6 +20,9 @@ class NameBasicsLoader extends Loader
 
     /**
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     *
+     * @throws DataException
+     * @throws ValueException
      */
     public function __construct(
         string $filename,
@@ -27,12 +33,12 @@ class NameBasicsLoader extends Loader
 
         $line = gzgets($this->file);
         if ($line === false) {
-            throw new InvalidFormatException('Header not found: ' . $filename);
+            throw new DataException('Header not found: ' . $filename);
         }
 
         $fields = explode("\t", trim($line, "\n"));
         if ($fields !== self::HEADERS) {
-            throw new InvalidFormatException('Format not recognized: ' . $filename);
+            throw new DataException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -45,7 +51,7 @@ class NameBasicsLoader extends Loader
             $knownForTitles = $fields[5] !== '\\N' ? explode(',', $fields[5]) : null;
 
             if (isset($this->data[$personId])) {
-                throw new DuplicateIdException('Duplicate person ID: ' . $personId);
+                throw new ValueException('Duplicate person ID: ' . $personId);
             }
 
             $row = [

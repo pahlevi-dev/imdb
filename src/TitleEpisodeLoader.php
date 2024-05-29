@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
+use DouglasGreen\Exceptions\DataException;
+use DouglasGreen\Exceptions\ValueException;
+
 class TitleEpisodeLoader extends Loader
 {
     public const HEADERS = ['tconst', 'parentTconst', 'seasonNumber', 'episodeNumber'];
 
+    /**
+     * @throws DataException
+     * @throws ValueException
+     */
     public function __construct(
         string $filename,
         callable $filterCallback = null,
@@ -17,12 +24,12 @@ class TitleEpisodeLoader extends Loader
 
         $line = gzgets($this->file);
         if ($line === false) {
-            throw new InvalidFormatException('Header not found: ' . $filename);
+            throw new DataException('Header not found: ' . $filename);
         }
 
         $fields = explode("\t", trim($line, "\n"));
         if ($fields !== self::HEADERS) {
-            throw new InvalidFormatException('Format not recognized: ' . $filename);
+            throw new DataException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
@@ -33,7 +40,7 @@ class TitleEpisodeLoader extends Loader
             $episodeNumber = ($fields[3] !== '\\N') ? intval($fields[3]) : null;
 
             if (isset($this->data[$episodeId])) {
-                throw new DuplicateIdException('Duplicate episode ID: ' . $episodeId);
+                throw new ValueException('Duplicate episode ID: ' . $episodeId);
             }
 
             $row = [

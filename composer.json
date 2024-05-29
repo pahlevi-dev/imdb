@@ -2,7 +2,11 @@
     "name": "douglasgreen/imdb",
     "description": "Process IMDB non-commercial datasets",
     "license": "MIT",
+    "type": "project",
     "autoload": {
+        "files": [
+            "src/Exceptions.php"
+        ],
         "psr-4": {
             "DouglasGreen\\Imdb\\": "src/"
         }

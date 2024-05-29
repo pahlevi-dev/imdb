@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
+use DouglasGreen\Exceptions\FileException;
+
 class Loader
 {
     /**
@@ -16,15 +18,18 @@ class Loader
      */
     protected $data = [];
 
+    /**
+     * @throws FileException
+     */
     public function __construct(string $filename)
     {
         if (! file_exists($filename)) {
-            throw new FileNotFoundException('File does not exist: ' . $filename);
+            throw new FileException('File does not exist: ' . $filename);
         }
 
         $file = gzopen($filename, 'r');
         if ($file === false) {
-            throw new FileOpenException('Unable to open file: ' . $filename);
+            throw new FileException('Unable to open file: ' . $filename);
         }
 
         $this->file = $file;
