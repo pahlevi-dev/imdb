@@ -9,7 +9,7 @@ use DouglasGreen\Exceptions\ValueException;
 
 class TitleBasicsLoader extends Loader
 {
-    public const HEADERS = [
+    public const array HEADERS = [
         'tconst',
         'titleType',
         'primaryTitle',
@@ -84,13 +84,13 @@ class TitleBasicsLoader extends Loader
             throw new DataException('Header not found: ' . $filename);
         }
 
-        $fields = explode("\t", trim($line, "\n"));
+        $fields = explode("\t", trim($line, PHP_EOL));
         if ($fields !== self::HEADERS) {
             throw new DataException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
-            $fields = explode("\t", trim($line, "\n"));
+            $fields = explode("\t", trim($line, PHP_EOL));
             $tconst = $fields[0];
             $titleType = $fields[1];
             $primaryTitle = $fields[2];

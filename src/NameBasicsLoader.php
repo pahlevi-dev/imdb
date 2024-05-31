@@ -9,7 +9,7 @@ use DouglasGreen\Exceptions\ValueException;
 
 class NameBasicsLoader extends Loader
 {
-    public const HEADERS = [
+    public const array HEADERS = [
         'nconst',
         'primaryName',
         'birthYear',
@@ -36,13 +36,13 @@ class NameBasicsLoader extends Loader
             throw new DataException('Header not found: ' . $filename);
         }
 
-        $fields = explode("\t", trim($line, "\n"));
+        $fields = explode("\t", trim($line, PHP_EOL));
         if ($fields !== self::HEADERS) {
             throw new DataException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
-            $fields = explode("\t", trim($line, "\n"));
+            $fields = explode("\t", trim($line, PHP_EOL));
             $personId = $fields[0];
             $primaryName = $fields[1];
             $birthYear = $fields[2] !== '\\N' ? intval($fields[2]) : null;

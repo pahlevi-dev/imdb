@@ -3,6 +3,27 @@
     "description": "Process IMDB non-commercial datasets",
     "license": "MIT",
     "type": "project",
+    "homepage": "https://github.com/douglasgreen/imdb",
+    "authors": [
+        {
+            "name": "Douglas Green",
+            "email": "douglas@nurd.site",
+            "homepage": "https://nurd.site/",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "data processing",
+        "datasets",
+        "filter",
+        "IMDb",
+        "movies",
+        "non-commercial",
+        "PHP",
+        "ratings",
+        "scripts",
+        "statistics"
+    ],
     "autoload": {
         "files": [
             "src/Exceptions.php"

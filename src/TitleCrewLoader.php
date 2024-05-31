@@ -9,7 +9,7 @@ use DouglasGreen\Exceptions\ValueException;
 
 class TitleCrewLoader extends Loader
 {
-    public const HEADERS = ['tconst', 'directors', 'writers'];
+    public const array HEADERS = ['tconst', 'directors', 'writers'];
 
     /**
      * @throws DataException
@@ -27,13 +27,13 @@ class TitleCrewLoader extends Loader
             throw new DataException('Header not found: ' . $filename);
         }
 
-        $fields = explode("\t", trim($line, "\n"));
+        $fields = explode("\t", trim($line, PHP_EOL));
         if ($fields !== self::HEADERS) {
             throw new DataException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
-            $fields = explode("\t", trim($line, "\n"));
+            $fields = explode("\t", trim($line, PHP_EOL));
             $titleId = $fields[0];
             $directors = ($fields[1] !== '\\N') ? explode(',', $fields[1]) : null;
             $writers = ($fields[2] !== '\\N') ? explode(',', $fields[2]) : null;

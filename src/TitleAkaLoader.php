@@ -9,7 +9,7 @@ use DouglasGreen\Exceptions\ValueException;
 
 class TitleAkaLoader extends Loader
 {
-    public const HEADERS = [
+    public const array HEADERS = [
         'titleId',
         'ordering',
         'title',
@@ -38,13 +38,13 @@ class TitleAkaLoader extends Loader
             throw new DataException('Header not found: ' . $filename);
         }
 
-        $fields = explode("\t", trim($line, "\n"));
+        $fields = explode("\t", trim($line, PHP_EOL));
         if ($fields !== self::HEADERS) {
             throw new DataException('Format not recognized: ' . $filename);
         }
 
         while (($line = gzgets($this->file)) !== false) {
-            $fields = explode("\t", trim($line, "\n"));
+            $fields = explode("\t", trim($line, PHP_EOL));
             $titleId = $fields[0];
             $ordering = intval($fields[1]);
             $title = $fields[2];

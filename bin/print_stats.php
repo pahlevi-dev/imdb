@@ -49,10 +49,10 @@ foreach ($counts as $type => $count) {
     $avgRate = round($rates[$type] / $count, 2);
     $avgNumVotes = round($votes[$type] / $count);
 
-    echo "| {$type} | {$count} | {$avgRate} | {$avgNumVotes} |\n";
+    echo sprintf('| %s | %d | %s | %s |', $type, $count, $avgRate, $avgNumVotes) . PHP_EOL;
 }
 
-echo "\n";
+echo PHP_EOL;
 
 // Summary table for genres
 $genreCounts = [];
@@ -69,14 +69,14 @@ foreach ($titles as $title) {
 
 arsort($genreCounts);
 
-echo "### Genre Counts\n\n";
-echo "| Genre | Count |\n|-------|-------|\n";
+echo '### Genre Counts' . PHP_EOL . PHP_EOL;
+echo '| Genre | Count |' . PHP_EOL . '|-------|-------|' . PHP_EOL;
 
 foreach ($genreCounts as $genre => $count) {
-    echo "| {$genre} | {$count} |\n";
+    echo sprintf('| %s | %d |', $genre, $count) . PHP_EOL;
 }
 
-echo "\n";
+echo PHP_EOL;
 
 // Summary table for runtimeMinutes
 $runtimeCounts = [];
@@ -99,11 +99,11 @@ foreach ($titles as $title) {
 
 ksort($runtimeCounts);
 
-echo "### Movie Runtimes\n\n";
-echo "| Runtime (minutes) | Count |\n|-------------------|-------|\n";
+echo '### Movie Runtimes' . PHP_EOL . PHP_EOL;
+echo '| Runtime (minutes) | Count |' . PHP_EOL . '|-------------------|-------|' . PHP_EOL;
 
 foreach ($runtimeCounts as $runtime => $count) {
-    echo "| {$runtime} | {$count} |\n";
+    echo sprintf('| %s | %d |', $runtime, $count) . PHP_EOL;
 }
 
-echo "\n";
+echo PHP_EOL;

@@ -16,7 +16,7 @@ class Loader
     /**
      * @var array<string, mixed>
      */
-    protected $data = [];
+    protected array $data = [];
 
     /**
      * @throws FileException
