@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
-use DouglasGreen\Exceptions\DataException;
-use DouglasGreen\Exceptions\ValueException;
+use DouglasGreen\Utility\Exceptions\Data\DataException;
+use DouglasGreen\Utility\Exceptions\Data\ValueException;
 
 class TitleAkaLoader extends Loader
 {
-    public const array HEADERS = [
+    public const HEADERS = [
         'titleId',
         'ordering',
         'title',
@@ -29,7 +29,7 @@ class TitleAkaLoader extends Loader
     public function __construct(
         string $filename,
         callable $filterCallback = null,
-        callable $processRow = null
+        callable $processRow = null,
     ) {
         parent::__construct($filename);
 
@@ -48,14 +48,16 @@ class TitleAkaLoader extends Loader
             $titleId = $fields[0];
             $ordering = intval($fields[1]);
             $title = $fields[2];
-            $region = ($fields[3] !== '\\N') ? $fields[3] : null;
-            $language = ($fields[4] !== '\\N') ? $fields[4] : null;
-            $types = ($fields[5] !== '\\N') ? explode(', ', $fields[5]) : null;
-            $attributes = ($fields[6] !== '\\N') ? explode(', ', $fields[6]) : null;
-            $isOriginalTitle = ($fields[7] === '1');
+            $region = $fields[3] !== '\\N' ? $fields[3] : null;
+            $language = $fields[4] !== '\\N' ? $fields[4] : null;
+            $types = $fields[5] !== '\\N' ? explode(', ', $fields[5]) : null;
+            $attributes = $fields[6] !== '\\N' ? explode(', ', $fields[6]) : null;
+            $isOriginalTitle = $fields[7] === '1';
 
             if (isset($this->data[$titleId][$ordering])) {
-                throw new ValueException(sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering));
+                throw new ValueException(
+                    sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering),
+                );
             }
 
             $row = [

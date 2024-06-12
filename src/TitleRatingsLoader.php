@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
-use DouglasGreen\Exceptions\DataException;
-use DouglasGreen\Exceptions\ValueException;
+use DouglasGreen\Utility\Exceptions\Data\DataException;
+use DouglasGreen\Utility\Exceptions\Data\ValueException;
 
 class TitleRatingsLoader extends Loader
 {
-    public const array HEADERS = ['tconst', 'averageRating', 'numVotes'];
+    public const HEADERS = ['tconst', 'averageRating', 'numVotes'];
 
     /**
      * @throws DataException
@@ -18,7 +18,7 @@ class TitleRatingsLoader extends Loader
     public function __construct(
         string $filename,
         callable $filterCallback = null,
-        callable $processRow = null
+        callable $processRow = null,
     ) {
         parent::__construct($filename);
 

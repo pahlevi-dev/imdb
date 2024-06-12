@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
-use DouglasGreen\Exceptions\DataException;
-use DouglasGreen\Exceptions\ValueException;
+use DouglasGreen\Utility\Exceptions\Data\DataException;
+use DouglasGreen\Utility\Exceptions\Data\ValueException;
 
 class TitleCrewLoader extends Loader
 {
-    public const array HEADERS = ['tconst', 'directors', 'writers'];
+    public const HEADERS = ['tconst', 'directors', 'writers'];
 
     /**
      * @throws DataException
@@ -18,7 +18,7 @@ class TitleCrewLoader extends Loader
     public function __construct(
         string $filename,
         callable $filterCallback = null,
-        callable $processRow = null
+        callable $processRow = null,
     ) {
         parent::__construct($filename);
 
@@ -35,8 +35,8 @@ class TitleCrewLoader extends Loader
         while (($line = gzgets($this->file)) !== false) {
             $fields = explode("\t", trim($line, PHP_EOL));
             $titleId = $fields[0];
-            $directors = ($fields[1] !== '\\N') ? explode(',', $fields[1]) : null;
-            $writers = ($fields[2] !== '\\N') ? explode(',', $fields[2]) : null;
+            $directors = $fields[1] !== '\\N' ? explode(',', $fields[1]) : null;
+            $writers = $fields[2] !== '\\N' ? explode(',', $fields[2]) : null;
 
             if (isset($this->data[$titleId])) {
                 throw new ValueException('Duplicate title ID: ' . $titleId);

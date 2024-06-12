@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
-use DouglasGreen\Exceptions\DataException;
-use DouglasGreen\Exceptions\ValueException;
+use DouglasGreen\Utility\Exceptions\Data\DataException;
+use DouglasGreen\Utility\Exceptions\Data\ValueException;
 
 class TitlePrincipalsLoader extends Loader
 {
-    public const array HEADERS = ['tconst', 'ordering', 'nconst', 'category', 'job', 'characters'];
+    public const HEADERS = ['tconst', 'ordering', 'nconst', 'category', 'job', 'characters'];
 
     /**
      * @throws DataException
@@ -18,7 +18,7 @@ class TitlePrincipalsLoader extends Loader
     public function __construct(
         string $filename,
         callable $filterCallback = null,
-        callable $processRow = null
+        callable $processRow = null,
     ) {
         parent::__construct($filename);
 
@@ -42,7 +42,9 @@ class TitlePrincipalsLoader extends Loader
             $characters = $fields[5] !== '\\N' ? $fields[5] : null;
 
             if (isset($this->data[$titleId][$ordering])) {
-                throw new ValueException(sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering));
+                throw new ValueException(
+                    sprintf('Duplicate title ID and order: %s, %d', $titleId, $ordering),
+                );
             }
 
             $row = [

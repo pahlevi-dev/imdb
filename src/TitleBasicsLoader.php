@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
-use DouglasGreen\Exceptions\DataException;
-use DouglasGreen\Exceptions\ValueException;
+use DouglasGreen\Utility\Exceptions\Data\DataException;
+use DouglasGreen\Utility\Exceptions\Data\ValueException;
 
 class TitleBasicsLoader extends Loader
 {
-    public const array HEADERS = [
+    public const HEADERS = [
         'tconst',
         'titleType',
         'primaryTitle',
@@ -21,7 +21,7 @@ class TitleBasicsLoader extends Loader
         'genres',
     ];
 
-    public const array VALID_GENRES = [
+    public const VALID_GENRES = [
         'Action',
         'Adult',
         'Adventure',
@@ -52,7 +52,7 @@ class TitleBasicsLoader extends Loader
         'Western',
     ];
 
-    public const array VALID_TITLE_TYPES = [
+    public const VALID_TITLE_TYPES = [
         'movie',
         'short',
         'tvEpisode',
@@ -75,7 +75,7 @@ class TitleBasicsLoader extends Loader
     public function __construct(
         string $filename,
         callable $filterCallback = null,
-        callable $processRow = null
+        callable $processRow = null,
     ) {
         parent::__construct($filename);
 
@@ -95,11 +95,11 @@ class TitleBasicsLoader extends Loader
             $titleType = $fields[1];
             $primaryTitle = $fields[2];
             $originalTitle = $fields[3];
-            $isAdult = ($fields[4] === '1');
-            $startYear = ($fields[5] !== '\\N') ? intval($fields[5]) : null;
-            $endYear = ($fields[6] !== '\\N') ? intval($fields[6]) : null;
-            $runtimeMinutes = ($fields[7] !== '\\N') ? intval($fields[7]) : null;
-            $genres = ($fields[8] !== '\\N') ? explode(',', $fields[8]) : [];
+            $isAdult = $fields[4] === '1';
+            $startYear = $fields[5] !== '\\N' ? intval($fields[5]) : null;
+            $endYear = $fields[6] !== '\\N' ? intval($fields[6]) : null;
+            $runtimeMinutes = $fields[7] !== '\\N' ? intval($fields[7]) : null;
+            $genres = $fields[8] !== '\\N' ? explode(',', $fields[8]) : [];
 
             if (isset($this->data[$tconst])) {
                 throw new ValueException('Duplicate title ID: ' . $tconst);

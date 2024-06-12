@@ -5,50 +5,55 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use DouglasGreen\Exceptions\BadArgumentException;
 use DouglasGreen\Imdb\TitleBasicsLoader;
 use DouglasGreen\Imdb\TitleRatingsLoader;
 use DouglasGreen\OptParser\OptParser;
+use DouglasGreen\Utility\Exceptions\Process\ArgumentException;
 
 $optParser = new OptParser('IMDB Processor', 'Process IMDB non-commercial datasets');
 
-$optParser->addParam(['min-year', 'y'], 'INT', 'Minimum year', static function (int $value): int {
-    if ($value < 1900 || $value > date('Y')) {
-        throw new BadArgumentException('Year not within range: ' . $value);
-    }
+$optParser
+    ->addParam(['min-year', 'y'], 'INT', 'Minimum year', static function (int $value): int {
+        if ($value < 1900 || $value > date('Y')) {
+            throw new ArgumentException('Year not within range: ' . $value);
+        }
 
-    return $value;
-})
-    ->addParam(['title-type', 't'], 'STRING', 'Title type', static function (string $value): string {
+        return $value;
+    })
+    ->addParam(['title-type', 't'], 'STRING', 'Title type', static function (
+        string $value,
+    ): string {
         if (! in_array($value, TitleBasicsLoader::VALID_TITLE_TYPES, true)) {
-            throw new BadArgumentException('Title not valid; must be one of: ' . implode(
-                ', ',
-                TitleBasicsLoader::VALID_TITLE_TYPES
-            ));
+            throw new ArgumentException(
+                'Title not valid; must be one of: ' .
+                    implode(', ', TitleBasicsLoader::VALID_TITLE_TYPES),
+            );
         }
 
         return $value;
     })
     ->addParam(['genre', 'g'], 'STRING', 'Genre', static function (string $value): string {
         if (! in_array($value, TitleBasicsLoader::VALID_GENRES, true)) {
-            throw new BadArgumentException('Genre not valid; must be one of: ' . implode(
-                ', ',
-                TitleBasicsLoader::VALID_GENRES
-            ));
+            throw new ArgumentException(
+                'Genre not valid; must be one of: ' .
+                    implode(', ', TitleBasicsLoader::VALID_GENRES),
+            );
         }
 
         return $value;
     })
-    ->addParam(['min-rating', 'r'], 'FLOAT', 'Minimum rating', static function (float $value): float {
+    ->addParam(['min-rating', 'r'], 'FLOAT', 'Minimum rating', static function (
+        float $value,
+    ): float {
         if ($value < 0.0 || $value > 10.0) {
-            throw new BadArgumentException('Value not in range 0 to 10');
+            throw new ArgumentException('Value not in range 0 to 10');
         }
 
         return $value;
     })
     ->addParam(['min-votes', 'v'], 'INT', 'Minimum votes', static function (int $value): int {
         if ($value < 1) {
-            throw new BadArgumentException('Value must be greater than 0');
+            throw new ArgumentException('Value must be greater than 0');
         }
 
         return $value;
@@ -88,7 +93,7 @@ $titleLoader = new TitleBasicsLoader(
         'primaryTitle' => $row['primaryTitle'],
         'startYear' => $row['startYear'],
         'genres' => $row['genres'],
-    ]
+    ],
 );
 $titles = $titleLoader->getData();
 
@@ -116,5 +121,13 @@ foreach ($ratings as $titleId => $rating) {
     $averageRating = $rating['averageRating'];
     $numVotes = $rating['numVotes'];
     $genreDesc = $genres ? ' (' . implode(', ', $genres) . ')' : '';
-    echo sprintf('%s (%s): %s * %s%s%s', $primaryTitle, $startYear, $averageRating, $numVotes, $genreDesc, PHP_EOL);
+    echo sprintf(
+        '%s (%s): %s * %s%s%s',
+        $primaryTitle,
+        $startYear,
+        $averageRating,
+        $numVotes,
+        $genreDesc,
+        PHP_EOL,
+    );
 }

@@ -16,7 +16,7 @@ $titleLoader = new TitleBasicsLoader(
         'startYear' => $row['startYear'],
         'runtimeMinutes' => $row['runtimeMinutes'],
         'genres' => $row['genres'],
-    ]
+    ],
 );
 $titles = $titleLoader->getData();
 
@@ -93,7 +93,9 @@ foreach ($titles as $title) {
             $roundedRuntime = '300+';
         }
 
-        $runtimeCounts[$roundedRuntime] = isset($runtimeCounts[$roundedRuntime]) ? $runtimeCounts[$roundedRuntime] + 1 : 1;
+        $runtimeCounts[$roundedRuntime] = isset($runtimeCounts[$roundedRuntime])
+            ? $runtimeCounts[$roundedRuntime] + 1
+            : 1;
     }
 }
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
-use DouglasGreen\Exceptions\DataException;
-use DouglasGreen\Exceptions\ValueException;
+use DouglasGreen\Utility\Exceptions\Data\DataException;
+use DouglasGreen\Utility\Exceptions\Data\ValueException;
 
 class TitleEpisodeLoader extends Loader
 {
-    public const array HEADERS = ['tconst', 'parentTconst', 'seasonNumber', 'episodeNumber'];
+    public const HEADERS = ['tconst', 'parentTconst', 'seasonNumber', 'episodeNumber'];
 
     /**
      * @throws DataException
@@ -18,7 +18,7 @@ class TitleEpisodeLoader extends Loader
     public function __construct(
         string $filename,
         callable $filterCallback = null,
-        callable $processRow = null
+        callable $processRow = null,
     ) {
         parent::__construct($filename);
 
@@ -36,8 +36,8 @@ class TitleEpisodeLoader extends Loader
             $fields = explode("\t", trim($line, PHP_EOL));
             $episodeId = $fields[0];
             $parentId = $fields[1];
-            $seasonNumber = ($fields[2] !== '\\N') ? intval($fields[2]) : null;
-            $episodeNumber = ($fields[3] !== '\\N') ? intval($fields[3]) : null;
+            $seasonNumber = $fields[2] !== '\\N' ? intval($fields[2]) : null;
+            $episodeNumber = $fields[3] !== '\\N' ? intval($fields[3]) : null;
 
             if (isset($this->data[$episodeId])) {
                 throw new ValueException('Duplicate episode ID: ' . $episodeId);
