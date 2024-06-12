@@ -21,8 +21,6 @@ class TitleAkaLoader extends Loader
     ];
 
     /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
      * @throws DataException
      * @throws ValueException
      */
@@ -48,10 +46,10 @@ class TitleAkaLoader extends Loader
             $titleId = $fields[0];
             $ordering = intval($fields[1]);
             $title = $fields[2];
-            $region = $fields[3] !== '\\N' ? $fields[3] : null;
-            $language = $fields[4] !== '\\N' ? $fields[4] : null;
-            $types = $fields[5] !== '\\N' ? explode(', ', $fields[5]) : null;
-            $attributes = $fields[6] !== '\\N' ? explode(', ', $fields[6]) : null;
+            $region = $fields[3] !== '\N' ? $fields[3] : null;
+            $language = $fields[4] !== '\N' ? $fields[4] : null;
+            $types = $fields[5] !== '\N' ? explode(', ', $fields[5]) : null;
+            $attributes = $fields[6] !== '\N' ? explode(', ', $fields[6]) : null;
             $isOriginalTitle = $fields[7] === '1';
 
             if (isset($this->data[$titleId][$ordering])) {

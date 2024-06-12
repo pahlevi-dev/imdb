@@ -67,8 +67,6 @@ class TitleBasicsLoader extends Loader
     ];
 
     /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
      * @throws DataException
      * @throws ValueException
      */
@@ -96,10 +94,10 @@ class TitleBasicsLoader extends Loader
             $primaryTitle = $fields[2];
             $originalTitle = $fields[3];
             $isAdult = $fields[4] === '1';
-            $startYear = $fields[5] !== '\\N' ? intval($fields[5]) : null;
-            $endYear = $fields[6] !== '\\N' ? intval($fields[6]) : null;
-            $runtimeMinutes = $fields[7] !== '\\N' ? intval($fields[7]) : null;
-            $genres = $fields[8] !== '\\N' ? explode(',', $fields[8]) : [];
+            $startYear = $fields[5] !== '\N' ? intval($fields[5]) : null;
+            $endYear = $fields[6] !== '\N' ? intval($fields[6]) : null;
+            $runtimeMinutes = $fields[7] !== '\N' ? intval($fields[7]) : null;
+            $genres = $fields[8] !== '\N' ? explode(',', $fields[8]) : [];
 
             if (isset($this->data[$tconst])) {
                 throw new ValueException('Duplicate title ID: ' . $tconst);

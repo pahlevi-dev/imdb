@@ -36,8 +36,8 @@ class TitleEpisodeLoader extends Loader
             $fields = explode("\t", trim($line, PHP_EOL));
             $episodeId = $fields[0];
             $parentId = $fields[1];
-            $seasonNumber = $fields[2] !== '\\N' ? intval($fields[2]) : null;
-            $episodeNumber = $fields[3] !== '\\N' ? intval($fields[3]) : null;
+            $seasonNumber = $fields[2] !== '\N' ? intval($fields[2]) : null;
+            $episodeNumber = $fields[3] !== '\N' ? intval($fields[3]) : null;
 
             if (isset($this->data[$episodeId])) {
                 throw new ValueException('Duplicate episode ID: ' . $episodeId);

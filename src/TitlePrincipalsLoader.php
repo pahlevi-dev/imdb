@@ -38,8 +38,8 @@ class TitlePrincipalsLoader extends Loader
             $ordering = intval($fields[1]);
             $personId = $fields[2];
             $category = $fields[3];
-            $job = $fields[4] !== '\\N' ? $fields[4] : null;
-            $characters = $fields[5] !== '\\N' ? $fields[5] : null;
+            $job = $fields[4] !== '\N' ? $fields[4] : null;
+            $characters = $fields[5] !== '\N' ? $fields[5] : null;
 
             if (isset($this->data[$titleId][$ordering])) {
                 throw new ValueException(

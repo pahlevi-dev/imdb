@@ -35,8 +35,8 @@ class TitleCrewLoader extends Loader
         while (($line = gzgets($this->file)) !== false) {
             $fields = explode("\t", trim($line, PHP_EOL));
             $titleId = $fields[0];
-            $directors = $fields[1] !== '\\N' ? explode(',', $fields[1]) : null;
-            $writers = $fields[2] !== '\\N' ? explode(',', $fields[2]) : null;
+            $directors = $fields[1] !== '\N' ? explode(',', $fields[1]) : null;
+            $writers = $fields[2] !== '\N' ? explode(',', $fields[2]) : null;
 
             if (isset($this->data[$titleId])) {
                 throw new ValueException('Duplicate title ID: ' . $titleId);

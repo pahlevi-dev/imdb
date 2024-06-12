@@ -19,8 +19,6 @@ class NameBasicsLoader extends Loader
     ];
 
     /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
      * @throws DataException
      * @throws ValueException
      */
@@ -45,10 +43,10 @@ class NameBasicsLoader extends Loader
             $fields = explode("\t", trim($line, PHP_EOL));
             $personId = $fields[0];
             $primaryName = $fields[1];
-            $birthYear = $fields[2] !== '\\N' ? intval($fields[2]) : null;
-            $deathYear = $fields[3] !== '\\N' ? intval($fields[3]) : null;
-            $primaryProfession = $fields[4] !== '\\N' ? explode(',', $fields[4]) : null;
-            $knownForTitles = $fields[5] !== '\\N' ? explode(',', $fields[5]) : null;
+            $birthYear = $fields[2] !== '\N' ? intval($fields[2]) : null;
+            $deathYear = $fields[3] !== '\N' ? intval($fields[3]) : null;
+            $primaryProfession = $fields[4] !== '\N' ? explode(',', $fields[4]) : null;
+            $knownForTitles = $fields[5] !== '\N' ? explode(',', $fields[5]) : null;
 
             if (isset($this->data[$personId])) {
                 throw new ValueException('Duplicate person ID: ' . $personId);
