@@ -8,7 +8,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use DouglasGreen\Imdb\TitleBasicsLoader;
 use DouglasGreen\Imdb\TitleRatingsLoader;
 use DouglasGreen\OptParser\OptParser;
-use DouglasGreen\Utility\Exceptions\Process\ArgumentException;
+use DouglasGreen\Utility\Process\ArgumentException;
 
 $optParser = new OptParser('IMDB Processor', 'Process IMDB non-commercial datasets');
 

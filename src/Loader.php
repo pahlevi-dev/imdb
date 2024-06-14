@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
-use DouglasGreen\Utility\Exceptions\FileSystem\FileException;
+use DouglasGreen\Utility\FileSystem\FileException;
 
 class Loader
 {

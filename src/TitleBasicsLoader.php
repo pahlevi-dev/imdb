@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace DouglasGreen\Imdb;
 
-use DouglasGreen\Utility\Exceptions\Data\DataException;
-use DouglasGreen\Utility\Exceptions\Data\ValueException;
+use DouglasGreen\Utility\Data\DataException;
+use DouglasGreen\Utility\Data\ValueException;
 
 class TitleBasicsLoader extends Loader
 {
